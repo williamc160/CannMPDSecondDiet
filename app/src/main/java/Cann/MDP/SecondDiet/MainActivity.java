@@ -20,29 +20,36 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
 {
     ListView lvRss;
+
     ArrayList<Weather> list;
     private Button button;
-    private int i = 0;
-
-
+    int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvRss = findViewById(R.id.lvRss);
         button = findViewById(R.id.button);
         list = new ArrayList<>();
-        button.setOnClickListener(new View.OnClickListener(){
+
+        //setting up the button with a counter that enables user to cycle through a list of links
+        button.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view){
+            public void onClick(View view)
+            {
                i++;
                if(i == 7)
-               {i = 0;}
-               button.setText(Integer.toString(i));
-            }});
-        new ProcessInBackground().execute();
+               {
+                   i = 1;
+               }
+               new ProcessInBackground().execute();
+               list.clear();
+            }
+        });
     }
 
     //connecting application to the open connection
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         ProgressDialog pd = new ProgressDialog(MainActivity.this);
         Exception exception = null;
 
+
         @Override
         protected void onPreExecute()
         {
@@ -74,17 +82,50 @@ public class MainActivity extends AppCompatActivity
         protected Exception doInBackground(Integer... params)
         {
             try {
+                //establishing the links
                 URL Glasgow = new URL("https://weather-broker-cdn.api.bbci.co.uk/en/forecast/rss/3day/2648579");
                 URL London = new URL("https://weather-broker-cdn.api.bbci.co.uk/en/forecast/rss/3day/2643743");
                 URL NewYork = new URL("https://weather-broker-cdn.api.bbci.co.uk/en/forecast/rss/3day/5128581");
                 URL Oman = new URL("https://weather-broker-cdn.api.bbci.co.uk/en/forecast/rss/3day/287286");
                 URL Mauritius = new URL("https://weather-broker-cdn.api.bbci.co.uk/en/forecast/rss/3day/934154");
                 URL Bangladesh = new URL("https://weather-broker-cdn.api.bbci.co.uk/en/forecast/rss/3day/1185241");
+
                 //setting up the pull parser
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
                 XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput(getInputStream(Oman), "UTF-8");   //inputting the url to receive the information from the rss feed
+                if(i == 1)
+                {
+                    button.setText("Glasgow");
+                    xpp.setInput(getInputStream(Glasgow), "UTF-8");
+                }
+                if(i==2)
+                {
+                    button.setText("London");
+                    xpp.setInput(getInputStream(London), "UTF-8");
+                }
+                if(i==3)
+                {
+                    button.setText("New York");
+                    xpp.setInput(getInputStream(NewYork), "UTF-8");
+                }
+                if(i==4)
+                {
+                   button.setText("Oman");
+                   xpp.setInput(getInputStream(Oman), "UTF-8");
+                }
+                if(i==5)
+                {
+                    button.setText("Mauritius");
+                    xpp.setInput(getInputStream(Mauritius), "UTF-8");
+                }
+                if(i==6)
+                {
+                    button.setText("Bangladesh");
+                    xpp.setInput(getInputStream(Bangladesh), "UTF-8");
+                }
+
+                //inputting the url to receive the information from the rss feed
                 boolean insideItem = false;
                 int eventType = xpp.getEventType();
                 String title = null, desc = null, pubDate = null;
