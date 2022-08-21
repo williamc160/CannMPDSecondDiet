@@ -16,11 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity
 {
     ListView lvRss;
-
     ArrayList<Weather> list;
     private Button button;
     int i;
@@ -28,12 +26,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvRss = findViewById(R.id.lvRss);
         button = findViewById(R.id.button);
-        list = new ArrayList<>();
+        list = new ArrayList<>();    //array list that stores information from the Weather class
 
         //setting up the button with a counter that enables user to cycle through a list of links
         button.setOnClickListener(new View.OnClickListener()
@@ -42,10 +39,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view)
             {
                i++;
-               if(i == 7)
-               {
-                   i = 1;
-               }
+               if(i == 7) {i = 1;} //simple loop that restarts back to 1 after user cycles through list of links
                new ProcessInBackground().execute();
                list.clear();
             }
@@ -67,7 +61,6 @@ public class MainActivity extends AppCompatActivity
     {
         ProgressDialog pd = new ProgressDialog(MainActivity.this);
         Exception exception = null;
-
 
         @Override
         protected void onPreExecute()
