@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CannMPDSecondDiet</string>
+    <string name="button">Button</string>
+    <string name="textview">TextView</string>
+    <string name="weather_update">Weather Update</string>
+    <string name="enter_country">Enter Country</string>
+    <string name="enter_city">Enter City</string>
+</resources>
