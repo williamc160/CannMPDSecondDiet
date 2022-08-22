@@ -13,8 +13,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -50,14 +51,19 @@ public class WeatherAdapter extends ArrayAdapter<Weather>
         tvDay.setText(values.get(position).getTitle());
         tvPubDate.setText(values.get(position).getPubDate());
         tvDesc.setText(values.get(position).getDesc());
+
         try
         {
-            URL url = new URL(Weather.getImage());
-            InputStream is = new BufferedInputStream(url.openStream());
-            b = BitmapFactory.decodeStream(is);
-        } catch(Exception e){}
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(Weather.getImage()).getContent());
+            ivDay.setImageBitmap(bitmap);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        ivDay.setImageBitmap(b);
+        //ivDay.setImageBitmap(b);
+
         //changing the imageView to a different image in the drawable folder
         //if(values.get(position).getImage().equals("Light Rain")){
          //   ivDay.setImageResource(R.drawable.day_rain);
