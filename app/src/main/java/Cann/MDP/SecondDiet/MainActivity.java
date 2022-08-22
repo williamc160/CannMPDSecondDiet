@@ -60,10 +60,10 @@ public class MainActivity extends AppCompatActivity
         Exception exception = null;
 
         @Override
-        protected void onPreExecute()
+        protected void onPreExecute()       //displays message while rss feed is loading data from rss link
         {
             super.onPreExecute();
-            pd.setMessage("Busy Loading rss feed");
+            pd.setMessage("Loading RSS feed");
             pd.show();
         }
 
@@ -86,32 +86,33 @@ public class MainActivity extends AppCompatActivity
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
                 XmlPullParser xpp = factory.newPullParser();
+                //once button is pressed counter is incremented then displays the information related to the counter
                 if(i == 1)
                 {
                     button.setText("Glasgow");
                     xpp.setInput(getInputStream(Glasgow), "UTF-8");
                 }
-                if(i==2)
+                else if(i==2)
                 {
                     button.setText("London");
                     xpp.setInput(getInputStream(London), "UTF-8");
                 }
-                if(i==3)
+                else if(i==3)
                 {
                     button.setText("New York");
                     xpp.setInput(getInputStream(NewYork), "UTF-8");
                 }
-                if(i==4)
+                 else if(i==4)
                 {
                    button.setText("Oman");
                    xpp.setInput(getInputStream(Oman), "UTF-8");
                 }
-                if(i==5)
+                 else if(i==5)
                 {
                     button.setText("Mauritius");
                     xpp.setInput(getInputStream(Mauritius), "UTF-8");
                 }
-                if(i==6)
+                else if (i==6)
                 {
                     button.setText("Bangladesh");
                     xpp.setInput(getInputStream(Bangladesh), "UTF-8");
