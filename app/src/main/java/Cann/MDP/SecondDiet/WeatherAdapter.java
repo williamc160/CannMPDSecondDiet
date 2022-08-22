@@ -41,17 +41,16 @@ public class WeatherAdapter extends ArrayAdapter<Weather>
         tvPubDate.setText(values.get(position).getPubDate());
         tvDesc.setText(values.get(position).getDesc());
         //changing the imageView to a different image in the drawable folder
-        if(values.get(position).getTitle().equals("Sunny"))
-        {
-         ivDay.setImageResource(R.drawable.day_clear);
-        }
-        else if(values.get(position).getTitle().equals("Partly Cloudy"))
-        {
-         ivDay.setImageResource(R.drawable.cloudy);
-        }
-        else if(values.get(position).getTitle().equals("rain"))
-        {
-            ivDay.setImageResource(R.drawable.day_rain);
+        switch (values.get(position).getTitle()) {
+            case "Sunny":
+                ivDay.setImageResource(R.drawable.day_clear);
+                break;
+            case "Partly Cloudy":
+                ivDay.setImageResource(R.drawable.cloudy);
+                break;
+            case "rain":
+                ivDay.setImageResource(R.drawable.day_rain);
+                break;
         }
         return rowView;
     }
