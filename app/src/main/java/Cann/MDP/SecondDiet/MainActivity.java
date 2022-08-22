@@ -1,8 +1,9 @@
 package Cann.MDP.SecondDiet;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity
     ListView lvRss;
     ArrayList<Weather> list;
     private Button button;
-    int i;
+    int i, eventType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,16 +34,11 @@ public class MainActivity extends AppCompatActivity
         list = new ArrayList<>();    //array list that stores information from the Weather class
 
         //setting up the button with a counter that enables user to cycle through a list of links
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-               i++;
-               if(i == 7) {i = 1;} //simple loop that restarts back to 1 after user cycles through list of links
-               new ProcessInBackground().execute();
-               list.clear();
-            }
+        button.setOnClickListener(view -> {
+           i++;
+           if(i == 7) {i = 1;} //simple loop that restarts back to 1 after user cycles through list of links
+           new ProcessInBackground().execute();
+           list.clear();
         });
     }
 
@@ -57,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     //loading information on link
+    @SuppressLint("StaticFieldLeak")
     public class ProcessInBackground extends AsyncTask<Integer, Void, Exception>
     {
         ProgressDialog pd = new ProgressDialog(MainActivity.this);
@@ -71,7 +68,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         //using the pull parser to add information into list view to display title, description and pubDate items in rss feed
+
         @Override
+        @SuppressLint("SetTextI18n")
         protected Exception doInBackground(Integer... params)
         {
             try {
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity
 
                 //inputting the url to receive the information from the rss feed
                 boolean insideItem = false;
-                int eventType = xpp.getEventType();
+                eventType = xpp.getEventType();
                 String title = null, desc = null, pubDate = null;
                 while (eventType != XmlPullParser.END_DOCUMENT)     //while loop ensuring that the xml parser is not at the end of the document
                 {
