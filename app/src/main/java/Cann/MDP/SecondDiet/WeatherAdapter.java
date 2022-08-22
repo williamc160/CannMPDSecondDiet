@@ -1,12 +1,21 @@
 package Cann.MDP.SecondDiet;
+//William Cann - S2125914
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class WeatherAdapter extends ArrayAdapter<Weather>
@@ -14,6 +23,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather>
     //declaring variables and arrays
     private final Context context;
     private final ArrayList<Weather> values;
+    Bitmap b;
 
     //constructor
     public WeatherAdapter(Context context, ArrayList<Weather> list)
@@ -40,18 +50,19 @@ public class WeatherAdapter extends ArrayAdapter<Weather>
         tvDay.setText(values.get(position).getTitle());
         tvPubDate.setText(values.get(position).getPubDate());
         tvDesc.setText(values.get(position).getDesc());
+        try
+        {
+            URL url = new URL(Weather.getImage());
+            InputStream is = new BufferedInputStream(url.openStream());
+            b = BitmapFactory.decodeStream(is);
+        } catch(Exception e){}
+
+        ivDay.setImageBitmap(b);
         //changing the imageView to a different image in the drawable folder
-        switch (values.get(position).getTitle()) {
-            case "Sunny":
-                ivDay.setImageResource(R.drawable.day_clear);
-                break;
-            case "Partly Cloudy":
-                ivDay.setImageResource(R.drawable.cloudy);
-                break;
-            case "rain":
-                ivDay.setImageResource(R.drawable.day_rain);
-                break;
-        }
+        //if(values.get(position).getImage().equals("Light Rain")){
+         //   ivDay.setImageResource(R.drawable.day_rain);
+        //}
         return rowView;
     }
+
 }

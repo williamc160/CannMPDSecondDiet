@@ -1,4 +1,5 @@
 package Cann.MDP.SecondDiet;
+//William Cann - S2125914
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -121,16 +122,25 @@ public class MainActivity extends AppCompatActivity
                 //inputting the url to receive the information from the rss feed
                 boolean insideItem = false;
                 eventType = xpp.getEventType();
-                String title = null, desc = null, pubDate = null;
+                String title = null, desc = null, pubDate = null, image = null;
                 while (eventType != XmlPullParser.END_DOCUMENT)     //while loop ensuring that the xml parser is not at the end of the document
                 {
                     if (eventType == XmlPullParser.START_TAG)
                     {
+                        if (xpp.getName().equalsIgnoreCase("image"))     //the pull parser must first initialize if it is in the correct tag in this case the tag is item<>
+                        {
+                        insideItem = true;
+                            if (xpp.getName().equalsIgnoreCase("url"))     //the pull parser must first initialize if it is in the correct tag in this case the tag is item<>
+                            {
+                                image = xpp.nextText();
+                            }
+                        }
+
                         if (xpp.getName().equalsIgnoreCase("item"))     //the pull parser must first initialize if it is in the correct tag in this case the tag is item<>
                         {
                             insideItem = true;
                         }
-                        if (xpp.getName().equalsIgnoreCase("title"))   //this element adds the text from the title <tag> to the setTitle variable in the Weather class
+                        else if (xpp.getName().equalsIgnoreCase("title"))   //this element adds the text from the title <tag> to the setTitle variable in the Weather class
                         {
                             if (insideItem)
                             {
@@ -153,12 +163,13 @@ public class MainActivity extends AppCompatActivity
                     }
                     else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item"))      //once at the end tag </item> saves information from pull parser into the weather constructor
                     {
-                        Weather theWeather = new Weather(title, pubDate, desc);
+                        Weather theWeather = new Weather(title, pubDate, desc, image);
                         list.add(theWeather);
                         insideItem = false;
                     }
                     eventType = xpp.next();     //moves to next item tag
                 }
+
             }
             catch (XmlPullParserException | IOException e) {exception = e;}     //exceptions
             return exception;
