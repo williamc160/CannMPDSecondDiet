@@ -103,14 +103,6 @@ public class MainActivity extends AppCompatActivity
                         {
                             if (eventType == XmlPullParser.START_TAG)
                             {
-                                if (xpp.getName().equalsIgnoreCase("image"))     //the pull parser must first initialize if it is in the correct tag in this case the tag is item<>
-                                {
-                                    insideItem = true;
-                                    if (xpp.getName().equalsIgnoreCase("url"))     //the pull parser must first initialize if it is in the correct tag in this case the tag is item<>
-                                    {
-                                        image = xpp.nextText();
-                                    }
-                                }
 
                                 if (xpp.getName().equalsIgnoreCase("item"))     //the pull parser must first initialize if it is in the correct tag in this case the tag is item<>
                                 {
@@ -139,7 +131,7 @@ public class MainActivity extends AppCompatActivity
                             }
                             else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item"))      //once at the end tag </item> saves information from pull parser into the weather constructor
                             {
-                                Weather theWeather = new Weather(title, pubDate, desc, image);
+                                Weather theWeather = new Weather(title, pubDate, desc);
                                 list.add(theWeather);
                                 insideItem = false;
                             }

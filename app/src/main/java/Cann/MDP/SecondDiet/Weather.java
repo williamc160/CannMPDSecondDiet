@@ -7,19 +7,13 @@ public class Weather {
     public String pubDate;
     public String desc;
 
-    //public static String getImage() {
-    //    String image = null;
-    //    return image;
-    //}
-
-
     //getters
     public String getTitle() {return title;}
     public String getPubDate() {return pubDate;}
     public String getDesc() {return desc;}
 
     //constructor
-    public Weather(String title, String pubDate, String desc, String image) {
+    public Weather(String title, String pubDate, String desc) {
         this.title = title;
         this.pubDate = pubDate;
         this.desc = desc;

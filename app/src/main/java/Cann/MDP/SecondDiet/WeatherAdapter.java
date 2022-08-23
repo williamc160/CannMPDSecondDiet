@@ -1,8 +1,8 @@
 package Cann.MDP.SecondDiet;
 //William Cann - S2125914
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +13,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class WeatherAdapter extends ArrayAdapter<Weather>
 {
     //declaring variables and arrays
     private final Context context;
     private final ArrayList<Weather> values;
-    Bitmap b;
-
+    String image;
     //constructor
     public WeatherAdapter(Context context, ArrayList<Weather> list)
     {
@@ -35,7 +35,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather>
     {
         LayoutInflater inflater;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.row_layout, parent, false);
+        @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.row_layout, parent, false);
 
         //declaring the text views in the custom list view
         TextView tvDay = rowView.findViewById(R.id.tvDay);
@@ -46,16 +46,14 @@ public class WeatherAdapter extends ArrayAdapter<Weather>
         tvDay.setText(values.get(position).getTitle());
         tvPubDate.setText(values.get(position).getPubDate());
         tvDesc.setText(values.get(position).getDesc());
+        image = values.get(position).getTitle();
+        if(Objects.equals('"'+ image + '"', "Light Cloud")){
+            ivDay.setImageResource(R.drawable.day_partial_cloud);
+        }
 
-        //try
-        //{
-        //    Bitmap bitmap = BitmapFactory.decodeStream((InputStream)
-         //           new URL(Weather.getImage()).getContent());
-        //    ivDay.setImageBitmap(bitmap);
-        //}
-        //catch (IOException e) {e.printStackTrace();}
-
-
+        else if (Objects.equals('"'+ image + '"', "Rain")){
+            ivDay.setImageResource(R.drawable.day_rain);
+        }
         return rowView;
     }
 
